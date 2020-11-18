@@ -230,30 +230,6 @@ class Graph:
                 if new_recs:
                     return new_recs
 
-        # print(starting_vertex,end = " ")
-        # print(destination_vertex,end = " ")
-
-        # print(type(starting_vertex),type(destination_vertex))
-        # path  = [starting_vertex]
-        
-        # if starting_vertex == destination_vertex:
-        #     return starting_vertex
-
-        # elif starting_vertex not in visited:
-        #     # print(starting_vertex)
-
-        #     visited.add(starting_vertex)
-
-        #     neighbors = self.get_neighbors(starting_vertex)
-
-        #     for neighbor in neighbors:
-        #         # print(neighbor)
-        #         # self.dfs_recursive(neighbor,destination_vertex,visited)
-        #         return [ starting_vertex, self.dfs_recursive(neighbor,destination_vertex,visited)]
-
-        # base case if destination is found
-            # should return number
-
         
         
 
