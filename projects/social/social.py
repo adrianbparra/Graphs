@@ -1,3 +1,5 @@
+import random
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -7,6 +9,7 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+        # {1: {2,3}}
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -45,8 +48,39 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for user in range(num_users):
+            self.add_user(user)
 
         # Create friendships
+        # to get the total friendships you multiply avg friendship time number of users
+        total_friendships = avg_friendships * num_users
+
+        # create a list of possible friendship combinations
+        friendship_combinations = []
+        # (1,5) == (5,1)
+
+        # add O(n) for combination creation
+
+        for user_id in range(1,num_users + 1):
+
+            for friend_id in range(user_id + 1, num_users + 1):
+
+                friendship_combinations.append((user_id,friend_id))
+                
+        
+
+        random.shuffle(friendship_combinations)
+        # print(len(friendship_combinations))
+
+        # only make the total / 2 of friendship combinations 
+        # half of total friendships since 1:2 and 2:1 is two friendships
+        friendship_to_make = friendship_combinations[:(total_friendships // 2)]
+
+        # create friendships
+        for friendship in friendship_to_make:
+            # print(friendship)
+            self.add_friendship(friendship[0],friendship[1])
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,6 +93,54 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        # get the depht traversal for each frienship path the user_id has
+        # user_id = 1
+        # {8:[1,8], 9:[1,8,9], 2:[1,8,9,2], 10:[1,8,9,2,10],...}
+
+        # visited will be the paths already visited
+
+        # print("friendships:",self.friendships[user_id])
+
+        # as each new path is encountered add to visited
+        path = [user_id]
+
+        visited[user_id] = path
+
+        # print(currentPath)
+        
+
+        q = []
+
+        # add the first to a stack
+        q.append(path)
+
+        while q:
+
+            current_path = q.pop(0)
+            # remove the first path in queue
+
+            current_friend = current_path[-1]
+            # get the last friend it the current path
+
+            # print(current_friend)
+
+            # add a path for each friendship
+            for friend in self.friendships[current_friend]:
+                
+                # if that friend has been visited dont do anything
+                if friend in visited:
+                    continue
+                else:
+                    # create a new path
+                    new_path = list(current_path)
+                    # add the new friend to the path
+                    new_path.append(friend)
+                    # add the path to visited and to the queue to see if ther is more
+                    # paths to search for the new user
+                    visited[friend] = new_path
+                    q.append(new_path)
+
         return visited
 
 
